@@ -1,0 +1,151 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="KiRaSmile"><meta name="renderer" content="webkit"><meta name="copyright" content="KiRaSmile"><meta name="keywords" content="KiRaSmile"><meta name="description" content="wow~"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>利用HEXO拥有一个自己的博客看板娘 · Smile's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/head.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">KiRaSmile</div><div class="profile-signature">all right？</div><div class="friends"><div>FRIENDS</div><span><a href="//github.com/Longlongyu" target="_black">friendA</a></span><span><a href="//github.com/kirarasmile" target="_black">friendB</a></span><span><a href="//github.com/kirarasmile" target="_black">friendC</a></span></div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 50vh;background-image: url(/img/intro/index-post.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">KiRaSmile's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">利用HEXO拥有一个自己的博客看板娘</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2019-03-13</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="博客技术"> 博客技术</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><p>心血来潮在寻找markdown2语法教程的时候偶然发现了关于HEXO博客加载live2d看板娘的教程，为了让我以后进行修改的时候更加简单，也为了服务广大<del>不会百度傻屌</del>网友，我把简略步骤记录在博客上。</p>
+<blockquote>
+<p>Live2D共有两个分支：Cubism（主要）和Euclid（已停止开发）。若无特殊说明，Live2D均指Cubism分支。<br><br>Live2D Cubism的工作原理是通过将一系列的2D图像进行平移、旋转和变形等操作，生成一个具有自然动画效果的可动人物模型。由于Live2D只需一系列2D原图即可生成具有类似于3D动画效果的模型，比3D建模耗费的时间和成本更少，因此受到很多游戏制作者，特别是小成本AVG和手游作者的喜爱。另外，Live2D生成的模型相对于真正的3D模型，可以更好地还原手绘风格。<br><br>Live2D Cubism生成的模型并不是真正的3D模型，因此具有一些局限性，比如无法进行大幅度的转身动作。而Live2D Euclid可以达到这一效果。<br>。———摘自维基百科</p>
+</blockquote>
+<p><br></p>
+<h1 id="安装Live2D模块"><a href="#安装Live2D模块" class="headerlink" title="安装Live2D模块"></a>安装Live2D模块</h1><p>首先需要安装<strong>hexo</strong>里的<strong>Live2D</strong>模块,在博客的根目录下右键<code>GIT BASH HERE</code>。<br><br>输入：<br></p>
+<pre><code>npm install --save hexo-helper-live2d
+</code></pre><p>卸载命令：<br></p>
+<pre><code>npm uninstall hexo-helper-live2d
+</code></pre><p>安装完之后可以在博客根目录的<code>node_modules</code>文件夹内发现<code>live2d-widget</code><br></p>
+<h1 id="配置动画模型"><a href="#配置动画模型" class="headerlink" title="配置动画模型"></a>配置动画模型</h1><p>获取需要的live2d模型的方式有很多种，可通过搜索引擎找到许多好看可爱的模型，在这里我只列举出我找到<del>（复制）</del>的模型。（<strong>感谢模型的作者</strong>）<br><a href="https://github.com/xiazeyu/live2d-widget-models" title="click here" target="_blank" rel="noopener">https://github.com/xiazeyu/live2d-widget-models</a><br><br>在作者git里有完整的模型安装教程，我在这里就不在累述了<del>（偷懒）</del><br></p>
+<h1 id="修改博客配置文件"><a href="#修改博客配置文件" class="headerlink" title="修改博客配置文件"></a>修改博客配置文件</h1><p>在下好模型之后，还剩下最后一大步：配置博客的配置文件（即根目录下的<code>_config.yml</code>）<br><br>在文件内的结尾添加如下内容（需要自行更改配置文件内的模型名称，这里面是hijiki）</p>
+<pre><code># Live2D    
+## https://github.com/EYHN/hexo-helper-live2d
+live2d:
+enable: true
+scriptFrom: jsdelivr # 默认
+pluginRootPath: live2dw/ # 插件在站点上的根目录(相对路径)
+pluginJsPath: lib/ # 脚本文件相对与插件根目录路径
+pluginModelPath: assets/ # 模型文件相对与插件根目录路径
+# scriptFrom: jsdelivr # jsdelivr CDN
+# scriptFrom: unpkg # unpkg CDN
+# scriptFrom: https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js # 你的自定义 url
+tagMode: false # 标签模式, 是否仅替换 live2d tag标签而非插入到所有页面中
+debug: false # 调试, 是否在控制台输出日志
+model:
+    use: live2d-widget-model-hijiki # npm-module package name
+    # use: hijiki # 博客根目录/live2d_models/ 下的目录名
+    # use: ./wives/hijiki # 相对于博客根目录的路径
+    # use: https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json # 你的自定义 url
+    scale: 1
+    hHeadPos: 0.5
+    vHeadPos: 0.618
+display:
+    superSample: 2
+    width: 125
+    height: 125
+    position: left
+    hOffset: 30
+    vOffset: -20
+mobile:
+    show: false
+    scale: 0.05
+react:
+    opacityDefault: 1
+    opacityOnHover: 0.2
+</code></pre><p>关于这段配置的代码我找了很多的教程，不知道是因为我个人疏忽还是说服务器上传速度太慢，只有这段代码是成功了的，并且目前即使我的手机端显示是关闭的，挂件依旧会在浏览器中显示出来（安卓qq自带浏览器，夸克浏览器，小米内置浏览器），在我排查并解决问题之后我将会重新更新这篇博客。<br></p>
+<h1 id="部署到网站"><a href="#部署到网站" class="headerlink" title="部署到网站"></a>部署到网站</h1><p>在完成上述的三步操作之后，在终端中输入<code>hexo d -g</code>即可将看板娘部署上网站<br><br><strong>（注意，因为存在上传速度和挂件加载速度问题，在上传之后不要因为没有立即加载出来而认为自己失败，需要等待一段时间并刷新页面确认，这段话适用以后所有关于博客的配置）</strong></p>
+<hr>
+<p>打开自己的网站欣赏自己的看板娘吧~have fun~<br></p>
+<p>本篇博客大量（真的很大量）借鉴了<br><br><a href="https://sevencho.github.io/archives/cb206c67.html" title="jiejian1" target="_blank" rel="noopener">https://sevencho.github.io/archives/cb206c67.html</a><br><br><a href="https://11.tt/posts/2018/how-to-play-with-live2d-on-hexo/" title="jiejian2" target="_blank" rel="noopener">https://11.tt/posts/2018/how-to-play-with-live2d-on-hexo/</a><br><br>以上这两位作者的教程，由衷感谢两位的付出，<strong>谢谢你们</strong></p>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://yoursite.com">KiRaSmile</a></p><p> <span>Link:  </span><a href="http://yoursite.com/2019/03/13/利用HEXO拥有一个自己的博客看板娘/">http://yoursite.com/2019/03/13/利用HEXO拥有一个自己的博客看板娘/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="prevSlogan" href="/2019/03/14/new1/" title="个人理解西瓜问题的假设空间与版本空间"><span>< PreviousPost</span><br><span class="prevTitle">个人理解西瓜问题的假设空间与版本空间</span></a><a class="nextSlogan" href="/2019/03/12/修改JupyterNotebook默认工作目录与浏览器/" title="修改JupyterNotebook默认工作目录与浏览器"><span>NextPost ></span><br><span class="nextTitle">修改JupyterNotebook默认工作目录与浏览器</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 50vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#安装Live2D模块"><span class="toc-number">1.</span> <span class="toc-text">安装Live2D模块</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置动画模型"><span class="toc-number">2.</span> <span class="toc-text">配置动画模型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#修改博客配置文件"><span class="toc-number">3.</span> <span class="toc-text">修改博客配置文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#部署到网站"><span class="toc-number">4.</span> <span class="toc-text">部署到网站</span></a></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i><script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
