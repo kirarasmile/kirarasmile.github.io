@@ -1,0 +1,136 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="KiRaSmile"><meta name="renderer" content="webkit"><meta name="copyright" content="KiRaSmile"><meta name="keywords" content="KiRaSmile"><meta name="description" content="wow~"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>实装了魔幻评论系统(附教程) · Smile's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/head.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">KiRaSmile</div><div class="profile-signature">all right？</div><div class="friends"><div>FRIENDS</div><span><a href="//github.com/Longlongyu" target="_black">friendA</a></span><span><a href="//github.com/kirarasmile" target="_black">friendB</a></span><span><a href="//github.com/kirarasmile" target="_black">friendC</a></span></div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-post.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">KiRaSmile's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">实装了魔幻评论系统(附教程)</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-edit"></i><span>2019-08-28</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="博客维护"> 博客维护</a></span></div><div class="post-intro-read"><span> Word count: <span class="post-count">1.3k</span> | Reading time: <span class="post-count">4</span>min</span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><p>博客已经实装了评论系统….得益于这个主题的作者留好的模板，我很轻松的就搞定了，模板里一共有四个选择：Livere、Disqus、倡言、Gitment，目前博客里使用的是Livere（即来必力），它能正常的运行（要挂梯子）并且有多种登录渠道。</p>
+<p><img src="https://i.imgur.com/gDrKh1h.png" alt=""><br>事实上昨天晚上我还尝试了其他几种评论系统，下图是Disqus的，同样要挂梯子才可以看到，与Livere功能是相同的，但是个人觉得Disqus界面更好看一点（我懒得改回去了），虽然登录渠道比较少。<br><img src="https://i.imgur.com/Ec471No.png" alt=""></p>
+<p>Gitment原本是我的最优选择，但是他挂了，我把ID和秘钥填入之后虽然能正确显示评论框架，但却无法正常的登录与发表评论，在网上查阅之后得出结论是我连上的评论服务器是<strong>Gitment作者的服务器</strong>，但是这个服务器<strong>挂了</strong>，而目前我对这整个博客框架几乎毫无修改头绪，因此我无从得知到底要修改何处才能将Gitment的评论挂靠在我的git仓库里头，这个问题可能要放在后期研究了。<br></p>
+<p>倡言是我发现Gitment挂了之后的第二选择，但是他居然要我给他个备案号……我的这git page搭的blog上哪给他整去<del>（网上貌似有教程）</del>…..</p>
+<hr>
+<h1 id="HEXO搭建评论系统教程"><a href="#HEXO搭建评论系统教程" class="headerlink" title="HEXO搭建评论系统教程"></a>HEXO搭建评论系统教程</h1><h2 id="Livere"><a href="#Livere" class="headerlink" title="Livere"></a>Livere</h2><p>打开Livere的官网，<a href="https://www.livere.com/" title="来必力" target="_blank" rel="noopener">https://www.livere.com/</a>打不开的话需要挂上梯子，打开之后你会发现网页里头是友好的中文<img src="https://i.imgur.com/E3zONtQ.png" alt=""><br>…但是不要被骗了。接下来你在这个网站的所有操作依然需要挂好梯子，第一步是要注册账号，（我在注册的时候发生了一件很迷惑的事情，明明我输入的验证码是正确的，但是他一直给我弹验证码错误，我重复了注册步骤好几次都是这样，于是我扭头去尝试Disqus，待我回来准备操作的时候却发现我能直接登录了….真是魔法）<br><br>当你注册完成登录之后，点击主页上方导航栏的<strong><em>安装</em></strong>按钮（install，如果你选的是英文的话，页面最下方有语言切换选项），选择免费版（city版），点击现在安装，<br><img src="https://i.imgur.com/f2nUXJL.png" alt=""></p>
+<p>然后你就会转入这个信息填写页面，</p>
+<p><img src="https://i.imgur.com/rH0awKo.png" alt=""></p>
+<ol>
+<li>第一行填写你的<strong>博客的完整地址</strong></li>
+<li>第二行填写你的博客名称</li>
+<li>第三行选择个人网站</li>
+<li>点击<strong>申请获取代码</strong></li>
+</ol>
+<p>然后你就会获得一串代码，如图：<br><img src="https://i.imgur.com/sBeK314.png" alt=""><br>打码部分便是我们需要的重点，如果你使用的博客模板为比较主流或是作者本身有预留评论功能的话，打开你的<strong>themes</strong>文件夹下对应正在使用的模板文件夹中的<code>_config.yml</code>,在里面找到<code># comment</code>下方的<code>livere_uid</code>，在后面填入刚才你在代码页面我打码部分的代码（记得空一格）,保存之后部署到blog，就大功告成了<br><br>如果你的博客没有预留评论功能的话，你就需要到搜索引擎上查找如何将评论功能模块加入你的blog了。（主要原因是我发现我找遍我现在的博客主题里头的所有文件夹，也没找到网上各种教程的对应文件，应该是原作者打包在某个地方了。）</p>
+<h2 id="Disqus"><a href="#Disqus" class="headerlink" title="Disqus"></a>Disqus</h2><p>同样，打开Disqus官网<a href="https://disqus.com/" target="_blank" rel="noopener">https://disqus.com/</a>，在注册登录之后点击主页的<code>get start</code>按钮，然后你会来到这个页面：<br><img src="https://i.imgur.com/ddjKGl8.png" alt=""><br>点击<strong>I want to install Disqus on my site</strong>，然后你就会进入这个页面<img src="https://i.imgur.com/Jtwk1kO.png" alt=""><br>需要填写的有三个框，</p>
+<ol>
+<li><strong>Website Name</strong>，这个是你一会要填入你<code>_config.yml</code>文件里的<code>short name</code></li>
+<li><strong>Category</strong>是你的博客种类，这个随你选</li>
+<li><strong>Language</strong>就不用说了。</li>
+<li>点击<strong>Creat Site</strong></li>
+</ol>
+<p>跳转到这个页面，往下拉<img src="https://i.imgur.com/Ol8idfR.png" alt=""><br>点击<strong>Subscribe Now</strong>，跳转到下一个页面<br><img src="https://i.imgur.com/u6M8lPN.png" alt=""><br>因为我们使用的是GIT PAGE，不属于上面那些个的任何一个，所以我们点击最下面我用红色箭头标出来的按钮，跳转到下一个页面<br><img src="https://i.imgur.com/XI6pcQ1.png" alt=""><br>在这个页面往下拉，页面的右下角有一个<strong>Configure</strong>，点击再进入下一个页面<br><img src="https://i.imgur.com/BemXUI7.png" alt=""><br>如果你的Website Name没有重复，在这个页面里，我们只需要填写一个信息框就行了：</p>
+<ol>
+<li><strong>Website URL</strong>，填写你的blog地址</li>
+<li>如果你的<strong>Website Name</strong>重复了，那么你接下来要填入配置文件的<code>shortname</code>会变成这个页面<strong>Website Name</strong>中所显示的文字</li>
+</ol>
+<p>ps：记住的你的<code>shortname</code></p>
+<p>接下来操作和上面Livere结束部分一样，打开你的<strong>themes</strong>文件夹下对应正在使用的模板文件夹中的<code>_config.yml</code>,在里面找到<code># comment</code>下方的<code>disqus_shortname</code>，在后面填入刚才你在代码页面我打码部分的代码（记得空一格）,保存之后部署到blog。<br></p>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://yoursite.com">KiRaSmile</a></p><p> <span>Link:  </span><a href="http://yoursite.com/2019/08/28/实装评论系统/">http://yoursite.com/2019/08/28/实装评论系统/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="nextSlogan" href="/2019/08/27/坚持更新1/" title="坚持更新（我填充了我的图库）"><span>NextPost ></span><br><span class="nextTitle">坚持更新（我填充了我的图库）</span></a><div class="clear"></div></div><div id="comment"><div id="lv-container" data-id="city" data-uid="MTAyMC80NjMzOC8yMjg0OQ=="><script>(function (d, s) {
+  var j, e = d.getElementsByTagName(s)[0];
+  if (typeof LivereTower === 'function') { return; }
+  j = d.createElement(s);
+  j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+  j.async = true;
+  e.parentNode.insertBefore(j, e);
+})(document, 'script');</script></div></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HEXO搭建评论系统教程"><span class="toc-number">1.</span> <span class="toc-text">HEXO搭建评论系统教程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Livere"><span class="toc-number">1.1.</span> <span class="toc-text">Livere</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Disqus"><span class="toc-number">1.2.</span> <span class="toc-text">Disqus</span></a></li></ol></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i><script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
