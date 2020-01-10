@@ -1,0 +1,230 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="KiRaSmile"><meta name="renderer" content="webkit"><meta name="copyright" content="KiRaSmile"><meta name="keywords" content="KiRaSmile"><meta name="description" content="wow~"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>Vue学习笔记（三） · Smile's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/head.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">KiRaSmile</div><div class="profile-signature">all right？</div><div class="friends"><div>FRIENDS</div><span><a href="//github.com/Longlongyu" target="_black">friendA</a></span><span><a href="//github.com/kirarasmile" target="_black">friendB</a></span><span><a href="//github.com/kirarasmile" target="_black">friendC</a></span></div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-post.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">KiRaSmile's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">Vue学习笔记（三）</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-edit"></i><span>2020-01-10</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="Vue.Js"> Vue.Js</a></span></div><div class="post-intro-read"><span> Word count: <span class="post-count">1.1k</span> | Reading time: <span class="post-count">5</span>min</span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><p>假期开始了.jpg<br></p>
+<hr>
+<h3 id="1-在Vue中使用事件绑定机制，为元素指定处理函数时，可以添加一个括号给函数传参，如："><a href="#1-在Vue中使用事件绑定机制，为元素指定处理函数时，可以添加一个括号给函数传参，如：" class="headerlink" title="1.在Vue中使用事件绑定机制，为元素指定处理函数时，可以添加一个括号给函数传参，如："></a>1.在Vue中使用事件绑定机制，为元素指定处理函数时，可以添加一个括号给函数传参，如：</h3><pre><code>&lt;input type=&quot;button&quot; value=&quot;添加&quot; class=&quot;btn btn-primary&quot; @click=&quot;add()&quot;&gt;
+
+&lt;a href=&quot;&quot; @click.prevent=&quot;del(item.id)&quot;&gt;删除&lt;/a&gt;
+</code></pre><h3 id="2-手动实现筛选的方法"><a href="#2-手动实现筛选的方法" class="headerlink" title="2.手动实现筛选的方法"></a><a href="https://cn.vuejs.org/v2/guide/list.html#%E6%98%BE%E7%A4%BA%E8%BF%87%E6%BB%A4-%E6%8E%92%E5%BA%8F%E5%90%8E%E7%9A%84%E7%BB%93%E6%9E%9C" target="_blank" rel="noopener">2.手动实现筛选的方法</a></h3><p>有时，我们想要显示一个数组经过过滤或排序后的版本，而不实际改变或重置原始数据。在这种情况下，可以创建一个计算属性，来返回过滤或排序后的数组。<br><br>例如</p>
+<pre><code>&lt;li v-for=&quot;n in evenNumbers&quot;&gt;【【 n 】】&lt;/li&gt;
+
+
+data: { 
+numbers: [ 1, 2, 3, 4, 5 ] 
+}, 
+computed: { 
+evenNumbers: function () { 
+return this.numbers.filter(function (number) { 
+return number % 2 === 0 
+  }) 
+ } 
+}
+</code></pre><p>在计算属性不适用得情况下（如在嵌套<code>v-for</code>循环中）你可以使用一个方法，在使用 <code>v-for</code> 指令循环每一行数据的时候，不再直接 <code>n in evenNumbers</code>，而是 <code>in</code> 一个 过滤的methods 方法，同时，把过滤条件<code>numbers</code>传递进去：</p>
+<pre><code>&lt;li v-for=&quot;n in even(numbers)&quot;&gt;【【 n 】】&lt;/li&gt;
+
+
+data: { 
+numbers: [ 1, 2, 3, 4, 5 ] 
+}, 
+methods: { 
+even: function (numbers) { 
+return numbers.filter(function (number) { 
+return number % 2 === 0 
+        }) 
+    } 
+}
+</code></pre><h3 id="2-过滤器"><a href="#2-过滤器" class="headerlink" title="2.过滤器"></a>2.过滤器</h3><blockquote>
+<p>概念：Vue.js 允许你自定义过滤器，<strong>可被用作一些常见的文本格式化</strong>。过滤器可以用在两个地方：<strong>mustache 插值和 v-bind 表达式</strong>。<br>过滤器应该被添加在 JavaScript 表达式的尾部，由“管道”符指示；<br>如<code>&lt;td&gt;【【item.ctime | dataFormat(&#39;yyyy-mm-dd&#39;)】】&lt;/td&gt;</code></p>
+</blockquote>
+<ul>
+<li><p>私有过滤器filters定义方式：</p>
+<pre><code>filters: { // 私有局部过滤器，只能在 当前 VM 对象所控制的 View 区域进行使用 
+dataFormat(input, pattern = &quot;&quot;)  { // 在参数列表中 通过 pattern=&quot;&quot; 来指定形参默认值，防止报错
+var dt = new Date(input);      
+// 获取年月日      
+var y = dt.getFullYear();      
+var m = (dt.getMonth() + 1).toString().padStart(2, &apos;0&apos;);      
+var d = dt.getDate().toString().padStart(2, &apos;0&apos;);     
+
+// 如果 传递进来的字符串类型，转为小写之后，等于 yyyy-mm-dd，那么就返回 年-月-日      
+// 否则，就返回  年-月-日 时：分：秒      
+if (pattern.toLowerCase() === &apos;yyyy-mm-dd&apos;) {        
+    return `${y}-${m}-${d}`;      
+} else {        
+    // 获取时分秒        
+    var hh = dt.getHours().toString().padStart(2, &apos;0&apos;);        
+    var mm = dt.getMinutes().toString().padStart(2, &apos;0&apos;);        
+    var ss = dt.getSeconds().toString().padStart(2, &apos;0&apos;);        
+</code></pre></li>
+</ul>
+<pre><code>    return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;     
+    }    
+  } 
+}
+</code></pre><blockquote>
+<p>使用ES6中的字符串新方法 <code>String.prototype.padStart(maxLength, fillString=&#39;&#39;)</code> 或 <code>String.prototype.padEnd(maxLength, fillString=&#39;&#39;)</code>来填充字符串；<br><br>比如将显示11：2：8填充为11：02：08</p>
+<ul>
+<li>全局过滤器filter定义方式</li>
+</ul>
+</blockquote>
+<pre><code>// 定义一个全局过滤器
+Vue.filter(&apos;dataFormat&apos;, function (input, pattern = &apos;&apos;) {  
+    var dt = new Date(input);  
+    // 获取年月日  
+    var y = dt.getFullYear();  
+    var m = (dt.getMonth() + 1).toString().padStart(2, &apos;0&apos;);  
+    var d = dt.getDate().toString().padStart(2, &apos;0&apos;);  
+
+
+    // 如果 传递进来的字符串类型，转为小写之后，等于 yyyy-mm-dd，那么就返回 年-月-日  
+    // 否则，就返回  年-月-日 时：分：秒  
+    if (pattern.toLowerCase() === &apos;yyyy-mm-dd&apos;) {    
+        return `${y}-${m}-${d}`;  
+    } else {    
+    // 获取时分秒    
+    var hh = dt.getHours().toString().padStart(2, &apos;0&apos;);    
+    var mm = dt.getMinutes().toString().padStart(2, &apos;0&apos;);    
+    var ss = dt.getSeconds().toString().padStart(2, &apos;0&apos;);    
+
+
+    return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;  
+    }
+ });
+</code></pre><blockquote>
+<p>注意：当有局部和全局两个名称相同的过滤器时候，会以就近原则进行调用，即：<strong>局部过滤器优先于全局过滤器被调用</strong>！</p>
+</blockquote>
+<h3 id="4-Vue2-x中自定义键盘修饰符"><a href="#4-Vue2-x中自定义键盘修饰符" class="headerlink" title="4.Vue2.x中自定义键盘修饰符"></a><a href="https://cn.vuejs.org/v2/guide/events.html#键值修饰符" target="_blank" rel="noopener">4.Vue2.x中自定义键盘修饰符</a></h3><p>可以通过全局<code>config.keyCodes</code>对象<strong>自定义按键修饰符别名</strong>：</p>
+<pre><code>// 可以使用 `v-on:keyup.f1` 
+
+Vue.config.keyCodes.f1 = 112
+</code></pre><p>使用自定义得按键修饰符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;text&quot; v-model=&quot;name&quot; @keyup.f1=&quot;add&quot;&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="5-自定义指令"><a href="#5-自定义指令" class="headerlink" title="5.自定义指令"></a><a href="https://cn.vuejs.org/v2/guide/custom-directive.html" target="_blank" rel="noopener">5.自定义指令</a></h3><pre><code>// 自定义全局指令 v-focus，为绑定的元素自动获取焦点：
+
+Vue.directive(&apos;focus&apos;, {      
+    inserted: function (el) { // inserted 表示被绑定元素插入父节点时调用
+        el.focus();      
+    }    
+  });    
+
+  //如果想注册局部指令，组件中也接受一个 directives 的选项
+  // 自定义局部指令 v-color 和 v-font-weight，为绑定的元素设置指定的字体颜色 和 字体粗细：      
+    directives: { 
+        color: { // 为元素设置指定的字体颜色
+            bind(el, binding) {
+                el.style.color = binding.value;
+              }
+            },       
+            &apos;font-weight&apos;: function (el, binding2) { // 自定义指令的简写形式，等同于定义了 bind 和 update 两个钩子函数          
+            el.style.fontWeight = binding2.value;
+            }
+         }
+</code></pre><ul>
+<li>自定义指令的使用方式</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;text&quot; v-model=&quot;searchName&quot; v-focus v-color=&quot;&apos;red&apos;&quot; v-font-weight=&quot;900&quot;&gt;</span><br></pre></td></tr></table></figure>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://yoursite.com">KiRaSmile</a></p><p> <span>Link:  </span><a href="http://yoursite.com/2020/01/10/Vue学习笔记(三)/">http://yoursite.com/2020/01/10/Vue学习笔记(三)/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="nextSlogan" href="/2019/11/04/Vue学习笔记(二)/" title="Vue学习笔记（二）"><span>NextPost ></span><br><span class="nextTitle">Vue学习笔记（二）</span></a><div class="clear"></div></div><div id="comment"><div id="lv-container" data-id="city" data-uid="MTAyMC80NjMzOC8yMjg0OQ=="><script>(function (d, s) {
+  var j, e = d.getElementsByTagName(s)[0];
+  if (typeof LivereTower === 'function') { return; }
+  j = d.createElement(s);
+  j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+  j.async = true;
+  e.parentNode.insertBefore(j, e);
+})(document, 'script');</script></div></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-在Vue中使用事件绑定机制，为元素指定处理函数时，可以添加一个括号给函数传参，如："><span class="toc-number">1.</span> <span class="toc-text">1.在Vue中使用事件绑定机制，为元素指定处理函数时，可以添加一个括号给函数传参，如：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-手动实现筛选的方法"><span class="toc-number">2.</span> <span class="toc-text">2.手动实现筛选的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-过滤器"><span class="toc-number">3.</span> <span class="toc-text">2.过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Vue2-x中自定义键盘修饰符"><span class="toc-number">4.</span> <span class="toc-text">4.Vue2.x中自定义键盘修饰符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-自定义指令"><span class="toc-number">5.</span> <span class="toc-text">5.自定义指令</span></a></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i><script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
